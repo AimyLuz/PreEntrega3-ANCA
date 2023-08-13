@@ -238,7 +238,7 @@ const deNoche = [
     },
     {
         nombre: "sueño lindo",
-        mensaje: `Durante la noche tu mascota tuvo un hermoso sueño donde comía croquetas. Recuperó +30 de salud y de energía.`,
+        mensaje: `Durante la noche tu mascota tuvo un hermoso sueño donde comía croquetas. ¡Recuperó +30 de salud y de energía!.`,
         efecto:
         {
             salud: +30,
@@ -280,6 +280,7 @@ function actualizarInfoEnPantalla() {
     infoSalud.textContent = "Salud = " + salud;
     infoEnergia.textContent = "Energía = " + energia;
     infoEdad.textContent = "Edad = " + edad;
+    guardarProgreso();
 
 }
 
@@ -295,7 +296,7 @@ function darComida(opcionComida) {
         energia = Math.max(energia, 0);
         actualizarInfoEnPantalla();
         cambiarTextoCard(comidaElegida.mensaje)
-        guardarProgreso();
+        
         if (salud <= 0 || energia <= 0) {
             cambiarTextoCard(comidaElegida.mensaje + '<br>¡Tu mascota ha muerto! ✝');
             guardarProgreso();
@@ -315,7 +316,7 @@ function darAmor(opcionAmor) {
         energia = Math.max(energia, 0);
         actualizarInfoEnPantalla();
         cambiarTextoCard(amorElegido.mensaje);
-        guardarProgreso();
+        
         if (salud <= 0 || energia <= 0) {
             cambiarTextoCard(amorElegido.mensaje + '<br>¡Tu mascota ha muerto! ✝');
             guardarProgreso()
@@ -334,7 +335,7 @@ function dormir () {
                     energia = Math.max(energia, 0);
                     cambiarTextoCard(deNoche[azar].mensaje);
                     actualizarInfoEnPantalla();
-                    guardarProgreso();
+                    
                     if (salud <= 0 || energia <= 0) {
                         cambiarTextoCard(deNoche[azar].mensaje + '<br>¡Tu mascota ha muerto! ✝');
                         guardarProgreso();
