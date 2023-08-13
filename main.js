@@ -1,16 +1,62 @@
 
 
-let nombre;
-let salud;
-let energia;
-let edad;
+let nombre = "";
+let salud = 80;
+let energia = 80;
+let edad = 1;
 let comer;
+
+const miMascota = {
+    nombre: "",
+    energia: 80,
+    salud: 80,
+    edad: 1,
+};
+
 const mascotaViva = () => salud > 0 && energia > 0;
-//datos de la mascota
-salud = 80;
-energia = 80;
-edad = 1;
+
+
+
+//JSON y guardado del juego
+function guardarProgreso() {
+    localStorage.setItem("progresoMascota", JSON.stringify(miMascota));
+}
+function cargarProgreso() {
+    const progresoGuardado = localStorage.getItem("progresoMascota");
+    if (progresoGuardado) {
+        const progresoParseado = JSON.parse(progresoGuardado);
+        miMascota.nombre = progresoParseado.nombre;
+        miMascota.salud = progresoParseado.salud;
+        miMascota.energia = progresoParseado.energia;
+        miMascota.edad = progresoParseado.edad;
+        actualizarInfoEnPantalla();
+        document.getElementById("respuestaNombre").textContent = miMascota.nombre;
+    }
+}
+function nombrarMascota() {
+    const nombreInput = document.getElementById("nombre").value.trim().toUpperCase();
+    if (!nombreInput) {
+        return;
+    } else {
+    miMascota.nombre = nombreInput;
+    const nombreMascota = document.getElementById("respuestaNombre");
+    nombreMascota.textContent = miMascota.nombre;
+    nombreMascota.style.display = "block";
+    
+    const mensajeBienvenida = `¡Bienvenidx! Ahora tenés una mascota que se llama ${miMascota.nombre}. Cuídala dándole comida y amor.`;
+    cambiarTextoCard(mensajeBienvenida);
+    
+    guardarProgreso();
+}
+}
+
+
 const imgMascota = document.getElementById("img_mascota");
+
+function cambiarTextoCard(mensaje) {
+    const mensajeConsol = document.getElementById("mensajeConsol");
+    mensajeConsol.innerHTML = mensaje;
+}
 // Array de comidas
 const comidas = [
     {
@@ -29,7 +75,7 @@ const comidas = [
             salud: -30,
             energia: 80
         },
-        mensaje: "Le diste una hamburguesa. Eso da mucha energía pero no es muy sano... le sube el colesterol a " + nombre + ". La energía aumenta +80 pero la salud baja -30."
+        mensaje:  `Le diste una hamburguesa. Eso da mucha energía pero no es muy sano... le sube el colesterol a  tu mascota. La energía aumenta +80 pero la salud baja -30.`
     },
     {
         nombre: "sandia con vino",
@@ -69,7 +115,7 @@ const formasDeAmor = [
             salud: 20,
             energia: 5
         },
-        mensaje: "Le diste un abrazo a tu mascota. " + nombre + " es muy feliz y no sólo aumenta su salud +20, sino también, su energía +5."
+        mensaje: `Le diste un abrazo a tu mascota. Tu mascota es muy feliz y no sólo aumenta su salud +20, sino también, su energía +5.`
     },
     {
         nombre: "leerle un cuento",
@@ -78,7 +124,7 @@ const formasDeAmor = [
             salud: -20,
             energia: -10
         },
-        mensaje: "Le leíste un cuento a tu mascota. Tu mascota no te escuchó, " + nombre + " se puso a jugar y se golpeó la cabeza corriendo. Baja su salud -20 y su energía -10."
+        mensaje: `Le leíste un cuento a tu mascota. Tu mascota no te escuchó, tu mascota se puso a jugar y se golpeó la cabeza corriendo. Baja su salud -20 y su energía -10.`
     },
     {
         nombre: "palmada en la espalda",
@@ -87,7 +133,7 @@ const formasDeAmor = [
             salud: -20,
             energia: -5
         },
-        mensaje: "Le diste una palmada en la espalda a tu mascota. Esa frialdad le destruye el corazón a " + nombre + ". Baja su salud -20 y su energía -5."
+        mensaje: `Le diste una palmada en la espalda a tu mascota. Esa frialdad le destruye el corazón a tu mascota. Baja su salud -20 y su energía -5.`
     },
     {
         nombre: "beso",
@@ -96,7 +142,7 @@ const formasDeAmor = [
             salud: 40,
             energia: 0
         },
-        mensaje: "Le diste un beso a tu mascota. " + nombre + " es muy feliz. Su salud aumenta +40"
+        mensaje: `Le diste un beso a tu mascota. Tu mascota es muy feliz. Su salud aumenta +40`
     },
     {
         nombre: "jugar",
@@ -105,14 +151,14 @@ const formasDeAmor = [
             salud: 80,
             energia: -20
         },
-        mensaje: "Jugaste con tu mascota. " + nombre + " es muy feliz pero gastó mucha energía. Su salud aumenta +80 y su enegía baja -20"
+        mensaje: `Jugaste con tu mascota. Tu mascota es muy feliz pero gastó mucha energía. Su salud aumenta +80 y su enegía baja -20`
     }
 ];
 //Array de posibilidades para cada día
 const deNoche = [
     {
         nombre: "sueño",
-        mensaje: "Durante la noche " + nombre + " soñó que el perro del vecino le pinchaba su pelota favorita. Se puso muy triste y se levantó asustado. Perdió -25 de salud y de energía.",
+        mensaje: `Durante la noche tu mascota soñó que el perro del vecino le pinchaba su pelota favorita. Se puso muy triste y se levantó asustado. Perdió -25 de salud y de energía.`,
         efecto:
         {
             salud: -25,
@@ -122,7 +168,7 @@ const deNoche = [
     },
     {
         nombre: "techo",
-        mensaje: "Durante la noche, mientras " + nombre + " dormía, se inundó el departamento del vecino de arriba y el techo de tu casa se cayó sobre " + nombre + ", que se asustó y se lastimó un poco. Perdió -40 de salud y de energía",
+        mensaje: `Durante la noche, mientras tu mascota dormía, se inundó el departamento del vecino de arriba y el techo de tu casa se cayó sobre tu mascota, que se asustó y se lastimó un poco. Perdió -40 de salud y de energía`,
         efecto:
         {
             salud: -40,
@@ -132,7 +178,7 @@ const deNoche = [
     },
     {
         nombre: "ovnis",
-        mensaje: "Durante la noche vinieron ovnis que abdujeron a " + nombre + ". Le hicieron estudios completos y, cuando se puso a morder los botones de la nave, trajeron a " + nombre + " devuelta a casa. Perdió -30 de salud y de energía",
+        mensaje: `Durante la noche vinieron ovnis que abdujeron a tu mascota. Le hicieron estudios completos y, cuando se puso a morder los botones de la nave, trajeron a tu mascota devuelta a casa. Perdió -30 de salud y de energía`,
         efecto:
         {
             salud: -30,
@@ -142,7 +188,7 @@ const deNoche = [
     },
     {
         nombre: "fiebre",
-        mensaje: "Durante la noche a " + nombre + " le subió la fiebre. Por suerte ya está mejor pero gastó mucha energía y salud. Perdió -50 de salud y de energía",
+        mensaje: `Durante la noche a tu mascota le subió la fiebre. Por suerte ya está mejor pero gastó mucha energía y salud. Perdió -50 de salud y de energía`,
         efecto:
         {
             salud: -50,
@@ -152,7 +198,7 @@ const deNoche = [
     },
     {
         nombre: "insomnio",
-        mensaje: "Durante la noche " + nombre + " no pudo dormir por tener insomnio. Su energía disminuyó -30.",
+        mensaje: `Durante la noche tu mascota no pudo dormir por tener insomnio. Su energía disminuyó -30.`,
         efecto:
         {
             salud: 0,
@@ -162,7 +208,7 @@ const deNoche = [
     },
     {
         nombre: "bien",
-        mensaje: "Durante la noche " + nombre + " durnmió plácidamente. Recuperando +40 de salud y de energía.",
+        mensaje: `Durante la noche tu mascota durnmió plácidamente. Recuperando +40 de salud y de energía.`,
         efecto:
         {
             salud: +40,
@@ -172,7 +218,7 @@ const deNoche = [
     },
     {
         nombre: "fiesta",
-        mensaje: "Durante la noche " + nombre + " no pudo dormir casi nada porque los vecinos hicieron una fiesta hasta la madrugrada. Perdió -35 de energía.",
+        mensaje: `Durante la noche tu mascota no pudo dormir casi nada porque los vecinos hicieron una fiesta hasta la madrugrada. Perdió -35 de energía.`,
         efecto:
         {
             salud: 0,
@@ -182,7 +228,7 @@ const deNoche = [
     },
     {
         nombre: "sillón",
-        mensaje: "Durante la noche " + nombre + " mordió el sillón y lo rompió. Te enojaste y le ordenaste ir a dormir afuera. " + nombre + " se puso triste. Perdió -30 de salud y de energía",
+        mensaje: `Durante la noche tu mascota mordió el sillón y lo rompió. Te enojaste y le ordenaste ir a dormir afuera. Tu mascota se puso triste. Perdió -30 de salud y de energía`,
         efecto:
         {
             salud: -30,
@@ -192,7 +238,7 @@ const deNoche = [
     },
     {
         nombre: "sueño lindo",
-        mensaje: "Durante la noche " + nombre + " tuvo un hermoso sueño donde comía croquetas. Recuperó +30 de salud y de energía.",
+        mensaje: `Durante la noche tu mascota tuvo un hermoso sueño donde comía croquetas. Recuperó +30 de salud y de energía.`,
         efecto:
         {
             salud: +30,
@@ -202,7 +248,7 @@ const deNoche = [
     },
     {
         nombre: "ratón",
-        mensaje: "Durante la noche " + nombre + " comenzó a perseguir un ratón. En su desenfreno no vió los muebles y se llevó puesta una silla. Perdió -40 de salud y de energía",
+        mensaje: `Durante la noche tu mascota comenzó a perseguir un ratón. En su desenfreno no vió los muebles y se llevó puesta una silla. Perdió -40 de salud y de energía`,
         efecto:
         {
             salud: -40,
@@ -217,29 +263,26 @@ function incrementarDiaVida() {
     if (mascotaViva()) {
         edad += 1;
         actualizarInfoEnPantalla();
+        guardarProgreso();
     }
 }
 setInterval(incrementarDiaVida, 10000); // 10 seg
 
-function cambiarTextoCard(mensaje) {
-    const mensajeConsol = document.getElementById("mensajeConsol");
-    mensajeConsol.innerHTML = mensaje;
-}
+
 
 
 cambiarTextoCard("Ponle un nombre a tu mascota")
 
-function nombrarMascota() {
-    nombre = document.getElementById("nombre").value.toUpperCase();
-    let nombreMascota = document.getElementById("respuestaNombre")
-    if (nombre === "") {
-        return;
-    } else {
-        nombreMascota.textContent = nombre;
-        nombreMascota.style.display = "block";
-        cambiarTextoCard("¡Bienvenidx! Ahora tenés una mascota que se llama " + nombre + ". Cuidala dándole comida y amor.")
-    }
+function actualizarInfoEnPantalla() {
+    const infoSalud = document.getElementById("infoSalud");
+    const infoEnergia = document.getElementById("infoEnergia");
+    const infoEdad = document.getElementById("infoEdad");
+    infoSalud.textContent = "Salud = " + salud;
+    infoEnergia.textContent = "Energía = " + energia;
+    infoEdad.textContent = "Edad = " + edad;
+
 }
+
 function darComida(opcionComida) {
     const comidaElegida = comidas.find(darComida => darComida.nombre === opcionComida);
     if (comidaElegida) {
@@ -252,8 +295,10 @@ function darComida(opcionComida) {
         energia = Math.max(energia, 0);
         actualizarInfoEnPantalla();
         cambiarTextoCard(comidaElegida.mensaje)
+        guardarProgreso();
         if (salud <= 0 || energia <= 0) {
             cambiarTextoCard(comidaElegida.mensaje + '<br>¡Tu mascota ha muerto! ✝');
+            guardarProgreso();
             return;
         }
     }
@@ -269,9 +314,11 @@ function darAmor(opcionAmor) {
         salud = Math.max(salud, 0);
         energia = Math.max(energia, 0);
         actualizarInfoEnPantalla();
-        cambiarTextoCard(amorElegido.mensaje)
+        cambiarTextoCard(amorElegido.mensaje);
+        guardarProgreso();
         if (salud <= 0 || energia <= 0) {
             cambiarTextoCard(amorElegido.mensaje + '<br>¡Tu mascota ha muerto! ✝');
+            guardarProgreso()
             return;
         }
     }
@@ -285,22 +332,17 @@ function dormir () {
                     energia = Math.min(energia, 100);
                     salud = Math.max(salud, 0);
                     energia = Math.max(energia, 0);
-                    cambiarTextoCard(deNoche[azar].mensaje)
+                    cambiarTextoCard(deNoche[azar].mensaje);
+                    actualizarInfoEnPantalla();
+                    guardarProgreso();
                     if (salud <= 0 || energia <= 0) {
                         cambiarTextoCard(deNoche[azar].mensaje + '<br>¡Tu mascota ha muerto! ✝');
+                        guardarProgreso();
                         return;
                     }
     
 }
-function actualizarInfoEnPantalla() {
-    const infoSalud = document.getElementById("infoSalud");
-    const infoEnergia = document.getElementById("infoEnergia");
-    const infoEdad = document.getElementById("infoEdad");
-    infoSalud.textContent = "Salud = " + salud;
-    infoEnergia.textContent = "Energía = " + energia;
-    infoEdad.textContent = "Edad = " + edad;
 
-}
 
 
 /* AUN EN CREACIÓN , NO LOGRO RESOLVER ESTE CODIGO, CUANDO LE DOY CLIC A CAMBIAR ESTADO PARA Q SE HAGA DE NOCHE SE ME REINICIA TODO

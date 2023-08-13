@@ -83,18 +83,25 @@ h2 {
     display: flex;
     justify-content: center;
 }
+
+
+.section_nombre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
 .input_nombre {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px;
-    padding: 20px;
-    width: 100%;
+    width: 50%;
 }
 .input_nombre input {
-        flex: 1;
-        height: 80PX;
-        font-size: 2rem;
+    flex: 1;
+    height: 80PX;
+    font-size: 2rem;
 }
 .boton {
     font-size: 1.5rem;
@@ -134,21 +141,51 @@ footer div p {
     font-size: 1.5rem;
 }
 
-
-@media screen and (min-width: 800px) {
-
-.section_nombre {
-    display: flex;
+@media screen and (max-width: 769px) {
+.section_centro {
+    grid-template-columns: 1fr; 
+    grid-template-rows: 0.7fr 1fr 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "img"
+      "card"
+      "comidas"
+      "amor"
+      "dormir"; 
+}
+.card { 
+    grid-area: card; 
+    padding:  0 10px 10px 10px;
+    margin: 0 10px 10px 10px;
+}
+img {
+    border-radius: 68px;
+    width: 90%;
+    margin: 10px;
+}
+.comidas { 
+    grid-area: comidas; 
+    margin: 10px;
+}
+  .amor { grid-area: amor; 
+    margin: 10px;
+    
+}
+.img {
+    margin: 0;
+    padding: 0;
+    
+}
+.info {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
+    
 }
 .input_nombre {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    margin: 20px;
+    padding: 20px;
+    width: 100%;
 }
-
 }
