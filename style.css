@@ -21,7 +21,8 @@ h1 {
 
 img {
     border-radius: 68px;
-    width: 100%;
+    width: 95%;
+    margin: 0 10px 0 10px;
 }
 p{
     font-size: 2rem;
@@ -40,15 +41,44 @@ p{
     justify-content:space-around;
     
 }
-
-
+.section_centro {
+    display: grid; 
+    grid-template-columns: 1fr 1fr 0.6fr 0.6fr; 
+    grid-template-rows: 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "img card comidas amor"
+      "img card comidas amor"
+      "img card dormir dormir"; 
+  }
+  .img { grid-area: img; }
+  .card { 
+    grid-area: card; 
+    width: 90%;
+    height: 100%;
+    background-color: rgb(229, 127, 255);
+    color: black;
+    font-size: 1.5rem;
+    padding: 0 20px 0 5px;
+}
+  .comidas { 
+    grid-area: comidas; 
+}
+  .amor { grid-area: amor; 
+    margin: 0 10px 0 10px;}
+  .dormir { grid-area: dormir; }
 h2 {
     display: flex;
     justify-content: center;
     font-size: 2rem;
     font-weight: 700;
 }
-
+.mensaje_consol {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
 .section2 {
     display: flex;
     justify-content: center;
@@ -63,7 +93,6 @@ h2 {
 }
 .input_nombre input {
         flex: 1;
-        margin-right: 10px;
         height: 80PX;
         font-size: 2rem;
 }
@@ -82,12 +111,18 @@ h2 {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
         0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
-.boton_noche {
+.dormir_boton {
+    display: flex;
     height: 100px;
     width: 400px;
     font-size: 2rem;
     background-color: rgb(35, 35, 121);
     color: azure;
+    border: solid, black, 5px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    justify-content: center;
+    align-items: center;
 }
 
 footer {
@@ -95,19 +130,10 @@ footer {
     justify-content: space-between;
     align-items: end;
 }
-footer div h3 {
+footer div p {
     font-size: 1.5rem;
 }
-footer div ol li {
-    font-size: 1.3rem;
-}
-.card {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(229, 127, 255);
-    color: black;
-    font-size: 1.5rem;
-}
+
 
 @media screen and (min-width: 800px) {
 
@@ -122,8 +148,6 @@ footer div ol li {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px;
-    padding: 20px;
     width: 50%;
 }
 

@@ -41,9 +41,14 @@
 
                 </div>
             </section>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="comidas col-lg-2">
+            <section class="section_centro">
+                    <div class="img ">
+                        <img src="./img/My project-1.jpg" alt="mascota" id="img_mascota" />
+                    </div>
+                        <div class="card">
+                            <p class="mensaje_consol" id="mensajeConsol">Ponle un nombre a tu mascota</p>
+                            </div>
+                    <div class="comidas">
                         <h2>Comidas</h2>
                         <p class= "opciones" onclick="darComida('zanahoria')">Zanahoria</p>
                         <p class= "opciones" onclick="darComida('hamburguesa')">Hamburguesa</p>
@@ -51,36 +56,23 @@
                         <p class= "opciones" onclick="darComida('sandia con vino')">Sandía con vino</p>
                         <p class= "opciones" onclick="darComida('helado')">Helado</p>
                     </div>
-                    <div class="amor col-lg-2">
+                    <div class="amor">
                         <h2>Formas de dar amor</h2>
                         <p class= "opciones" onclick="darAmor('abrazo')">Abrazo</p>
                         <p class= "opciones" onclick="darAmor('leerle un cuento')">Leerle un cuento</p>
                         <p class= "opciones" onclick="darAmor('palmada en la espalda')">Palmada en la espalda</p>
                         <p class= "opciones" onclick="darAmor('beso')">Beso</p>
                         <p class= "opciones" onclick="darAmor('jugar')">Jugar</p>
+                        </div>
                     </div>
-                    <div class="img col-lg-5">
-                        <img src="./img/My project-1.jpg" alt="mascota" id="img_mascota" />
-                    </div>
-                    <div class="col-3">
-                        <div class="card">
-                            <p class="mensaje_consol" id="mensajeConsol">Ponle un nombre a tu mascota</p>
-                            </div>
-                    </div>
-
-                </div>
             </div>
+                <div class="dormir">
+                    <div>
+                        <p class="dormir_boton" onclick="dormir()"> Dormir</p>
+                    </div>
         </section>
-<!--         
-        <section class="section2">
-            <form>
-                <button class="boton boton_noche" onclick="cambiarEstadoDiaNoche();">
-                    <p>Alternar Día/Noche</p>
-                    <p>Actualmente: <span id="estadoDiaNoche">Día</span></p>
-                </button>
-                
-            </form>
-        </section> -->
+
+
     </main>
     <footer>
         <div>
