@@ -362,6 +362,7 @@ function darComida(opcionComida) {
                     window.location.reload(); 
                 }
               });
+              localStorage.clear();
             return;
         } else {
             sonido = new Audio('./audios/dia.mp3');
@@ -397,7 +398,7 @@ function darAmor(opcionAmor) {
                     window.location.reload(); 
                 }
               });
-
+                localStorage.clear();
             return;
         } else {
             sonido = new Audio('./audios/dia.mp3');
@@ -433,7 +434,8 @@ function dormir() {
             if (result.isConfirmed) {
                 window.location.reload(); 
             }
-          });
+          })
+          localStorage.clear();
         return;
     } else {
         sonido = new Audio('./audios/noche.mp3');
