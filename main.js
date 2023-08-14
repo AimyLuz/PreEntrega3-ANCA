@@ -1,11 +1,8 @@
 
 
-// let nombre = "";
-// let salud = 80;
-// let energia = 80;
-// let edad = 1;
 let comer;
 let noche= false;
+let sonido;
 
 const miMascota = {
     nombre: "",
@@ -14,14 +11,14 @@ const miMascota = {
     edad: 1,
 };
 
-const mascotaViva = () => salud > 0 && energia > 0;
-//modo oscuto
+const mascotaViva = () => miMascota.salud > 0 && miMascota.energia > 0;
+//cambio dia y noche constantes
 const imgMascota = document.getElementById("img_mascota");
-const elementosDeTexto = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
-const opcionesFondo = document.getElementById("opciones");
+const elementosDeTexto = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, #respuestaNombre');
+const opcionesFondo = document.querySelectorAll(".opciones");
 const fondosRosas = document.querySelectorAll (".boton, .card");
 
-
+//inicio
 function cargarPartida() {
     Swal.fire(
         {
@@ -81,11 +78,20 @@ function nombrarMascota() {
         guardarProgreso();
     }
 }
+//funciones de jugabilidad
+function incrementarDiaVida() {
+    if (mascotaViva()) {
+        miMascota.edad += 1;
+        actualizarInfoEnPantalla();
+    }
+}
+setInterval(incrementarDiaVida, 10000); // 10 seg
+
 
 function cambiarDiaNoche () {
     if (noche === false){
     imgMascota.src = "./img/gato-dia.png"
-    document.body.style.backgroundImage = "url('./img/fondo-dia.jpg')"
+    document.body.style.backgroundImage = "url('./img/fondo-dia2.jpg')"
     elementosDeTexto.forEach(elemento => {
         elemento.style.color = 'black'; 
     });
@@ -103,7 +109,7 @@ function cambiarDiaNoche () {
         elemento.style.color = 'white'; 
     });
     opcionesFondo.forEach(elemento => {
-        elemento.style.backgroundColor = "bluemidnightblue"; 
+        elemento.style.backgroundColor = "midnightblue"; 
     });
     fondosRosas.forEach(elemento => {
         elemento.style.backgroundColor = 'indigo'; 
@@ -318,14 +324,7 @@ const deNoche = [
 
 ];
 
-function incrementarDiaVida() {
-    if (mascotaViva()) {
-        edad += 1;
-        actualizarInfoEnPantalla();
-        guardarProgreso();
-    }
-}
-setInterval(incrementarDiaVida, 10000); // 10 seg
+
 
 
 function actualizarInfoEnPantalla() {
@@ -348,16 +347,25 @@ function darComida(opcionComida) {
         miMascota.energia = Math.min(miMascota.energia, 100);
         miMascota.salud = Math.max(miMascota.salud, 0);
         miMascota.energia = Math.max(miMascota.energia, 0);
-
         if (miMascota.salud <= 0 || miMascota.energia <= 0) {
+            sonido = new Audio('./audios/rip.mp3');
+            sonido.play();
             Swal.fire({
                 icon: 'error',
                 title: '¡Tu mascota ha muerto! ✝',
                 text: `${comidaElegida.mensaje} Tu mascota se ha quedado sin energía y/o salud.`,
-                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>'
+                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>',
+                confirmButtonText: 'Volver a intentarlo',
+                allowOutsideClick: false 
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload(); 
+                }
               });
             return;
         } else {
+            sonido = new Audio('./audios/dia.mp3');
+            sonido.play();
             actualizarInfoEnPantalla();
             cambiarTextoCard(comidaElegida.mensaje)
             noche = false;
@@ -375,14 +383,25 @@ function darAmor(opcionAmor) {
         miMascota.salud = Math.max(miMascota.salud, 0);
         miMascota.energia = Math.max(miMascota.energia, 0);
         if (miMascota.salud <= 0 || miMascota.energia <= 0) {
+            sonido = new Audio('./audios/rip.mp3');
+            sonido.play();
             Swal.fire({
                 icon: 'error',
                 title: '¡Tu mascota ha muerto! ✝',
                 text: `${amorElegido.mensaje} Tu mascota se ha quedado sin energía y/o salud.`,
-                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>'
+                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>',
+                confirmButtonText: 'Volver a intentarlo',
+                allowOutsideClick: false 
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload(); 
+                }
               });
+
             return;
         } else {
+            sonido = new Audio('./audios/dia.mp3');
+            sonido.play();
             actualizarInfoEnPantalla();
             cambiarTextoCard(amorElegido.mensaje);
             noche = false;
@@ -399,10 +418,10 @@ function dormir() {
     miMascota.energia = Math.min(miMascota.energia, 100);
     miMascota.salud = Math.max(miMascota.salud, 0);
     miMascota.energia = Math.max(miMascota.energia, 0);
-    cambiarTextoCard(deNoche[azar].mensaje);
-    actualizarInfoEnPantalla();
     noche = true;
     if (miMascota.salud <= 0 || miMascota.energia <= 0) {
+        sonido = new Audio('./audios/rip.mp3');
+        sonido.play();
         Swal.fire({
             icon: 'error',
             title: '¡Tu mascota ha muerto! ✝',
@@ -410,8 +429,14 @@ function dormir() {
             footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>'
           });
         return;
+    } else {
+        sonido = new Audio('./audios/noche.mp3');
+        sonido.play();
+        cambiarTextoCard(deNoche[azar].mensaje);
+        actualizarInfoEnPantalla();
+        cambiarDiaNoche ();
     }
-    cambiarDiaNoche ();
+    
 
 
 }

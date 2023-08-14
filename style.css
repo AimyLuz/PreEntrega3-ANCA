@@ -26,6 +26,7 @@ img {
 }
 p{
     font-size: 2rem;
+
 }
 
 .opciones {
@@ -123,7 +124,7 @@ h2 {
     height: 100px;
     width: 400px;
     font-size: 2rem;
-    background-color: rgb(35, 35, 121);
+    background-color:mediumpurple;
     color: azure;
     border: solid, black, 5px;
     border-radius: 20px;
