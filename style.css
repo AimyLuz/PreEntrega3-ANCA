@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
 
 body {
-    background-color: rgb(67, 186, 241);
+    background-image: url('./img/fondo-dia2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     font-family: "Caveat";
@@ -21,7 +21,7 @@ h1 {
 
 img {
     border-radius: 68px;
-    width: 95%;
+    width: 40%;
     margin: 0 10px 0 10px;
 }
 p{
@@ -44,12 +44,12 @@ p{
 .section_centro {
     display: grid; 
     grid-template-columns: 1fr 1fr 0.6fr 0.6fr; 
-    grid-template-rows: 1fr 1fr 1fr; 
-    gap: 0px 0px; 
+    grid-template-rows: 0.3fr 0.5fr 0.5fr; 
+    gap: 10px 5px; 
     grid-template-areas: 
-      "img card comidas amor"
-      "img card comidas amor"
-      "img card dormir dormir"; 
+      "card card comidas amor"
+      "img img comidas amor"
+      "img img dormir dormir"; 
   }
   .img { grid-area: img; }
   .card { 
@@ -160,7 +160,7 @@ footer div p {
 }
 img {
     border-radius: 68px;
-    width: 90%;
+    width: 70%;
     margin: 10px;
 }
 .comidas { 
@@ -178,6 +178,8 @@ img {
 }
 .info {
     flex-direction: column;
+    font-weight: 700;
+
     
 }
 .input_nombre {
@@ -188,4 +190,12 @@ img {
     padding: 20px;
     width: 100%;
 }
+body {
+    
+    background-repeat: no-repeat;
+    background-size:auto;
+    background-color: #7DB645;
+
+}
+
 }

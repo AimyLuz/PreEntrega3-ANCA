@@ -1,10 +1,11 @@
 
 
-let nombre = "";
-let salud = 80;
-let energia = 80;
-let edad = 1;
+// let nombre = "";
+// let salud = 80;
+// let energia = 80;
+// let edad = 1;
 let comer;
+let noche= false;
 
 const miMascota = {
     nombre: "",
@@ -14,8 +15,38 @@ const miMascota = {
 };
 
 const mascotaViva = () => salud > 0 && energia > 0;
+//modo oscuto
+const imgMascota = document.getElementById("img_mascota");
+const elementosDeTexto = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6');
+const opcionesFondo = document.getElementById("opciones");
+const fondosRosas = document.querySelectorAll (".boton, .card");
 
 
+function cargarPartida() {
+    Swal.fire(
+        {
+            title: '¿Quieres cargar una partida o comenzar una nueva?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Cargar',
+            denyButtonText: `Nueva partida`,
+            denyButtonColor: '#88dc65',
+            width: 600,
+            backdrop: `
+              rgba(0,0,123,0.4)
+              url("./img/PYh.gif")
+              left top
+              no-repeat
+            `
+        }
+    ).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            cargarProgreso();
+        } 
+    })
+}
+cargarPartida();
 
 //JSON y guardado del juego
 function guardarProgreso() {
@@ -31,6 +62,7 @@ function cargarProgreso() {
         miMascota.edad = progresoParseado.edad;
         actualizarInfoEnPantalla();
         document.getElementById("respuestaNombre").textContent = miMascota.nombre;
+        cambiarTextoCard("¡Te extrañé!")
     }
 }
 function nombrarMascota() {
@@ -38,20 +70,47 @@ function nombrarMascota() {
     if (!nombreInput) {
         return;
     } else {
-    miMascota.nombre = nombreInput;
-    const nombreMascota = document.getElementById("respuestaNombre");
-    nombreMascota.textContent = miMascota.nombre;
-    nombreMascota.style.display = "block";
-    
-    const mensajeBienvenida = `¡Bienvenidx! Ahora tenés una mascota que se llama ${miMascota.nombre}. Cuídala dándole comida y amor.`;
-    cambiarTextoCard(mensajeBienvenida);
-    
-    guardarProgreso();
-}
+        miMascota.nombre = nombreInput;
+        const nombreMascota = document.getElementById("respuestaNombre");
+        nombreMascota.textContent = miMascota.nombre;
+        nombreMascota.style.display = "block";
+
+        const mensajeBienvenida = `¡Bienvenidx! Ahora tenés una mascota que se llama ${miMascota.nombre}. Cuídala dándole comida y amor.`;
+        cambiarTextoCard(mensajeBienvenida);
+
+        guardarProgreso();
+    }
 }
 
-
-const imgMascota = document.getElementById("img_mascota");
+function cambiarDiaNoche () {
+    if (noche === false){
+    imgMascota.src = "./img/gato-dia.png"
+    document.body.style.backgroundImage = "url('./img/fondo-dia.jpg')"
+    elementosDeTexto.forEach(elemento => {
+        elemento.style.color = 'black'; 
+    });
+    opcionesFondo.forEach(elemento => {
+        elemento.style.backgroundColor = "aquamarine"; 
+    });
+    fondosRosas.forEach(elemento => {
+        elemento.style.backgroundColor = 'rgb(229, 127, 255)'; 
+    });
+    
+} else {
+    imgMascota.src = "./img/gato-noche.png"
+    document.body.style.backgroundImage = "url('./img/fondo-noche3.jpg')"
+    elementosDeTexto.forEach(elemento => {
+        elemento.style.color = 'white'; 
+    });
+    opcionesFondo.forEach(elemento => {
+        elemento.style.backgroundColor = "bluemidnightblue"; 
+    });
+    fondosRosas.forEach(elemento => {
+        elemento.style.backgroundColor = 'indigo'; 
+    });
+    
+}
+}
 
 function cambiarTextoCard(mensaje) {
     const mensajeConsol = document.getElementById("mensajeConsol");
@@ -75,7 +134,7 @@ const comidas = [
             salud: -30,
             energia: 80
         },
-        mensaje:  `Le diste una hamburguesa. Eso da mucha energía pero no es muy sano... le sube el colesterol a  tu mascota. La energía aumenta +80 pero la salud baja -30.`
+        mensaje: `Le diste una hamburguesa. Eso da mucha energía pero no es muy sano... le sube el colesterol a  tu mascota. La energía aumenta +80 pero la salud baja -30.`
     },
     {
         nombre: "sandia con vino",
@@ -269,17 +328,13 @@ function incrementarDiaVida() {
 setInterval(incrementarDiaVida, 10000); // 10 seg
 
 
-
-
-cambiarTextoCard("Ponle un nombre a tu mascota")
-
 function actualizarInfoEnPantalla() {
     const infoSalud = document.getElementById("infoSalud");
     const infoEnergia = document.getElementById("infoEnergia");
     const infoEdad = document.getElementById("infoEdad");
-    infoSalud.textContent = "Salud = " + salud;
-    infoEnergia.textContent = "Energía = " + energia;
-    infoEdad.textContent = "Edad = " + edad;
+    infoSalud.textContent = "Salud = " + miMascota.salud;
+    infoEnergia.textContent = "Energía = " + miMascota.energia;
+    infoEdad.textContent = "Edad = " + miMascota.edad;
     guardarProgreso();
 
 }
@@ -287,184 +342,76 @@ function actualizarInfoEnPantalla() {
 function darComida(opcionComida) {
     const comidaElegida = comidas.find(darComida => darComida.nombre === opcionComida);
     if (comidaElegida) {
-        imgMascota.src = "./img/My project-1.jpg"
-        salud += comidaElegida.efecto.salud;
-        energia += comidaElegida.efecto.energia;
-        salud = Math.min(salud, 100);
-        energia = Math.min(energia, 100);
-        salud = Math.max(salud, 0);
-        energia = Math.max(energia, 0);
-        actualizarInfoEnPantalla();
-        cambiarTextoCard(comidaElegida.mensaje)
-        
-        if (salud <= 0 || energia <= 0) {
-            cambiarTextoCard(comidaElegida.mensaje + '<br>¡Tu mascota ha muerto! ✝');
-            guardarProgreso();
+        miMascota.salud += comidaElegida.efecto.salud;
+        miMascota.energia += comidaElegida.efecto.energia;
+        miMascota.salud = Math.min(miMascota.salud, 100);
+        miMascota.energia = Math.min(miMascota.energia, 100);
+        miMascota.salud = Math.max(miMascota.salud, 0);
+        miMascota.energia = Math.max(miMascota.energia, 0);
+
+        if (miMascota.salud <= 0 || miMascota.energia <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Tu mascota ha muerto! ✝',
+                text: `${comidaElegida.mensaje} Tu mascota se ha quedado sin energía y/o salud.`,
+                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>'
+              });
             return;
+        } else {
+            actualizarInfoEnPantalla();
+            cambiarTextoCard(comidaElegida.mensaje)
+            noche = false;
+            cambiarDiaNoche ();
         }
     }
 }
 function darAmor(opcionAmor) {
     const amorElegido = formasDeAmor.find(darAmor => darAmor.nombre === opcionAmor);
     if (amorElegido) {
-        imgMascota.src = "./img/My project-1.jpg"
-        salud += amorElegido.efecto.salud;
-        energia += amorElegido.efecto.energia;
-        salud = Math.min(salud, 100);
-        energia = Math.min(energia, 100);
-        salud = Math.max(salud, 0);
-        energia = Math.max(energia, 0);
-        actualizarInfoEnPantalla();
-        cambiarTextoCard(amorElegido.mensaje);
-        
-        if (salud <= 0 || energia <= 0) {
-            cambiarTextoCard(amorElegido.mensaje + '<br>¡Tu mascota ha muerto! ✝');
-            guardarProgreso()
+        miMascota.salud += amorElegido.efecto.salud;
+        miMascota.energia += amorElegido.efecto.energia;
+        miMascota.salud = Math.min(miMascota.salud, 100);
+        miMascota.energia = Math.min(miMascota.energia, 100);
+        miMascota.salud = Math.max(miMascota.salud, 0);
+        miMascota.energia = Math.max(miMascota.energia, 0);
+        if (miMascota.salud <= 0 || miMascota.energia <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Tu mascota ha muerto! ✝',
+                text: `${amorElegido.mensaje} Tu mascota se ha quedado sin energía y/o salud.`,
+                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>'
+              });
             return;
-        }
-    }
-}
-function dormir () {
-        imgMascota.src = "./img/noche.jpg";
-    const azar = Math.floor(Math.random() * deNoche.length);
-                    salud += deNoche[azar].efecto.salud;
-                    energia += deNoche[azar].efecto.energia;
-                    salud = Math.min(salud, 100);
-                    energia = Math.min(energia, 100);
-                    salud = Math.max(salud, 0);
-                    energia = Math.max(energia, 0);
-                    cambiarTextoCard(deNoche[azar].mensaje);
-                    actualizarInfoEnPantalla();
-                    
-                    if (salud <= 0 || energia <= 0) {
-                        cambiarTextoCard(deNoche[azar].mensaje + '<br>¡Tu mascota ha muerto! ✝');
-                        guardarProgreso();
-                        return;
-                    }
-    
-}
-
-
-
-/* AUN EN CREACIÓN , NO LOGRO RESOLVER ESTE CODIGO, CUANDO LE DOY CLIC A CAMBIAR ESTADO PARA Q SE HAGA DE NOCHE SE ME REINICIA TODO
-    let esDeNoche = false;
-
-function cambiarEstadoDiaNoche() {
-    if(esDeNoche){
-        edad += 1;
-    }
-    esDeNoche = !esDeNoche;
-    actualizarImagenMascota();
-    actualizarInfoEnPantalla();
-    
-    const estadoDiaNoche = document.getElementById("estadoDiaNoche");
-    estadoDiaNoche.textContent = esDeNoche ? "Noche" : "Día";
-}
-
-function actualizarImagenMascota() {
-    const imgMascota = document.getElementById("img_mascota");
-    if (esDeNoche) {
-        imgMascota.src = "./img/noche.jpg";
-    } else {
-        imgMascota.src = "./img/My project-1.jpg";
-    }
-}
-
-
-
-
-------------------------------------------------------------------------------------------------------------
-
-
-
-/*
-    while (mascotaViva()) {
-        let accion = prompt("Escribí 'comida' si querés darle energía o 'amor' si querés mejorar su salud (algunas opciones pueden afectar a ambas).").toLowerCase();
-
-        if (accion === "comida") {
-            comer = prompt("¿Qué querés darle de comer? Elegí una de las opciones y escribila: zanahoria // hamburguesa // pepino // sandia con vino // helado.").toLowerCase();
-            const comidaElegida = comidas.find(darComida => darComida.nombre === comer);
-
-            if (comidaElegida) {
-                salud += comidaElegida.efecto.salud;
-                energia += comidaElegida.efecto.energia;
-                salud = Math.min(salud, 100);
-                energia = Math.min(energia, 100);
-                salud = Math.max(salud, 0);
-                energia = Math.max(energia, 0);
-                console.log("--------------------------------------------");
-                console.log(comidaElegida.mensaje);
-                console.log("Ahora la salud de " + nombre + " es de: " + salud);
-                console.log("y la energía de " + nombre + " es de: " + energia);
-                
-
-                if (salud > 0 && energia > 0) {
-                    alert ("Es de noche 🌙, hora de dormir... ZzZzZ...");
-                    const azar = Math.floor(Math.random() * deNoche.length);
-                    salud += deNoche[azar].efecto.salud;
-                    energia += deNoche[azar].efecto.energia;
-                    salud = Math.min(salud, 100);
-                    energia = Math.min(energia, 100);
-                    salud = Math.max(salud, 0);
-                    energia = Math.max(energia, 0);
-                    console.log("---------------------- ☾ ----------------------");
-                    console.log(deNoche[azar].mensaje);
-                    alert ("Está saliendo el sol 🌞, ¡vamos a despertarnos!");
-                    console.log("---------------------- ☼ ----------------------");
-                    console.log("¡Hoy comienza un nuevo día!");
-                    console.log("Hoy la salud de " + nombre + " es de " + salud);
-                    console.log("Y su energía es de " + energia);
-                    edad += 1;
-                    console.log(nombre + " tiene " + edad + " días de vida");
-                }
-            } else {
-                alert("La comida ingresada es inválida.");
-            }
-        } else if (accion === "amor") {
-            amor = prompt("¿De qué manera le querés dar amor? Elegí una de las opciones y escribila: abrazo // leerle un cuento // palmada en la espalda // beso // jugar.").toLowerCase();
-            const amorElegido = formasDeAmor.find(darAmor => darAmor.nombre === amor);
-
-            if (amorElegido) {
-                salud += amorElegido.efecto.salud;
-                energia += amorElegido.efecto.energia;
-                salud = Math.min(salud, 100);
-                energia = Math.min(energia, 100);
-                salud = Math.max(salud, 0);
-                energia = Math.max(energia, 0);
-                console.log("--------------------------------------------");
-                console.log(amorElegido.mensaje);
-                console.log("Ahora la salud de " + nombre + " es de: " + salud);
-                console.log("Y la energía de " + nombre + " es de: " + energia);
-                
-
-                if (salud > 0 && energia > 0) {
-                    alert ("Es de noche 🌙, hora de dormir... ZzZzZ...");
-                    const azar = Math.floor(Math.random() * deNoche.length);
-                    salud += deNoche[azar].efecto.salud;
-                    energia += deNoche[azar].efecto.energia;
-                    salud = Math.min(salud, 100);
-                    energia = Math.min(energia, 100);
-                    salud = Math.max(salud, 0);
-                    energia = Math.max(energia, 0);
-                    console.log("---------------------- ☾ ----------------------");
-                    console.log(deNoche[azar].mensaje);
-                    alert ("Está saliendo el sol 🌞, ¡vamos a despertarnos!");
-                    console.log("---------------------- ☼ ----------------------");
-                    console.log("¡Hoy comienza un nuevo día!");
-                    console.log("Hoy la salud de " + nombre + " es de " + salud);
-                    console.log("Y su energía es de " + energia);
-                    edad += 1;
-                    console.log(nombre + " tiene " + edad + " días de vida");
-                }
-            } else {
-                alert("La forma de amor ingresada es inválida.");
-            }
         } else {
-            alert("La acción ingresada es inválida.");
+            actualizarInfoEnPantalla();
+            cambiarTextoCard(amorElegido.mensaje);
+            noche = false;
+            cambiarDiaNoche ();
         }
-    
     }
+}
+function dormir() {
 
-    console.log( nombre + " ha MUERTO");
-    alert("Tu mascota murió ✝");
-*/
+    const azar = Math.floor(Math.random() * deNoche.length);
+    miMascota.salud += deNoche[azar].efecto.salud;
+    miMascota.energia += deNoche[azar].efecto.energia;
+    miMascota.salud = Math.min(miMascota.salud, 100);
+    miMascota.energia = Math.min(miMascota.energia, 100);
+    miMascota.salud = Math.max(miMascota.salud, 0);
+    miMascota.energia = Math.max(miMascota.energia, 0);
+    cambiarTextoCard(deNoche[azar].mensaje);
+    actualizarInfoEnPantalla();
+    noche = true;
+    if (miMascota.salud <= 0 || miMascota.energia <= 0) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Tu mascota ha muerto! ✝',
+            text: `${deNoche[azar].mensaje}`,
+            footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>'
+          });
+        return;
+    }
+    cambiarDiaNoche ();
+
+
+}
