@@ -354,7 +354,7 @@ function darComida(opcionComida) {
                 icon: 'error',
                 title: '¡Tu mascota ha muerto! ✝',
                 text: `${comidaElegida.mensaje} Tu mascota se ha quedado sin energía y/o salud.`,
-                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>',
+                footer: '<a href="https://www.youtube.com/watch?v=-NVHn19CnDY">INSTRUCTIVO PARA CUIDAR MASCOTAS</a>',
                 confirmButtonText: 'Volver a intentarlo',
                 allowOutsideClick: false 
             }).then((result) => {
@@ -389,7 +389,7 @@ function darAmor(opcionAmor) {
                 icon: 'error',
                 title: '¡Tu mascota ha muerto! ✝',
                 text: `${amorElegido.mensaje} Tu mascota se ha quedado sin energía y/o salud.`,
-                footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>',
+                footer: '<a href="https://www.youtube.com/watch?v=-NVHn19CnDY">INSTRUCTIVO PARA CUIDAR MASCOTAS</a>',
                 confirmButtonText: 'Volver a intentarlo',
                 allowOutsideClick: false 
             }).then((result) => {
@@ -426,7 +426,13 @@ function dormir() {
             icon: 'error',
             title: '¡Tu mascota ha muerto! ✝',
             text: `${deNoche[azar].mensaje}`,
-            footer: '<a href="https://aimyluz.github.io/preEntrega3-ANCA/">¿Quieres intentarlo nuevamente?</a>'
+            footer: '<a href="https://www.youtube.com/watch?v=-NVHn19CnDY">INSTRUCTIVO PARA CUIDAR MASCOTAS</a>',
+            confirmButtonText: 'Volver a intentarlo',
+            allowOutsideClick: false 
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.reload(); 
+            }
           });
         return;
     } else {
